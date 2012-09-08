@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @petition.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @petition.description %>
+</p>
+
+<p>
+  <b>Pdf link:</b>
+  <%= @petition.pdf_link %>
+</p>
+
+
+<%= link_to 'Edit', edit_petition_path(@petition) %> |
+<%= link_to 'Back', petitions_path %>
