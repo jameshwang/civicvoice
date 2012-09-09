@@ -1,4 +1,7 @@
 Epetition::Application.routes.draw do
+  resources :users
+  resources :petitions
+  root :to => 'petitions#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

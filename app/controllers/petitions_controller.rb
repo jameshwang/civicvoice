@@ -6,7 +6,7 @@ class PetitionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @petitions }
+      format.json { render json: @petitions, callback: params[:callback] }
     end
   end
 
