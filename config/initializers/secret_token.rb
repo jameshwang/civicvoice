@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Epetition::Application.config.secret_token = 'be9adae59ac5059a4d38f1b816faf5181a73af1f2d05f0aa6521e2191eaa4190f5cd7348e0d5c949b0b6ca9b1926b3b8da02cf96c12bedbdca2c1b86a1feccd2'
+Epetition::Application.config.secret_token = 'b901a04b4d4bbdf1db99edfff852ba988f606716978fa6a1ddab16a51a73c5c492d4fb8e353bb9e6bf7ca1a55d42acf2d25a922d87ef7a62f136fb05817a0e6b'
