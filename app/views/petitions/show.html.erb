@@ -9,8 +9,10 @@
     <dd><%= @petition.name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
     <dd><%= @petition.description %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:pdf_link) %>:</strong></dt>
+    <dd><%= @petition.pdf_link %></dd>
   </dl>
 
-  <iframe src="http://docs.google.com/gview?url=http://example.com/mypdf.pdf&embedded=true" style="width:682px; height: 800px;" frameborder="0"></iframe>
+  <iframe src="<%= @petition.pdf_link %>" style="width:900px; height: 700px;" frameborder="0"></iframe>
 </div>
 
