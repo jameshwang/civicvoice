@@ -1,3 +1,7 @@
+require 'net/https'
+require 'uri'
+require 'json'
+
 class PetitionsController < ApplicationController
   # GET /petitions
   # GET /petitions.json
@@ -14,6 +18,11 @@ class PetitionsController < ApplicationController
   # GET /petitions/1.json
   def show
     @petition = Petition.find(params[:id])
+
+    puts "PDF Link url = "
+    @petition.pdf_link =  view_document(create_envelope(get_template))
+    
+    puts @petition.pdf_link
 
     respond_to do |format|
       format.html # show.html.erb
@@ -79,5 +88,155 @@ class PetitionsController < ApplicationController
       format.html { redirect_to petitions_url }
       format.json { head :no_content }
     end
+  end
+
+  def get_template
+    docusign_authentication_headers = {
+            "X-DocuSign-Authentication" => "" \
+              "<DocuSignCredentials>" \
+                "<Username>rhuff.9999@gmail.com</Username>" \
+                "<Password>Deskpro0docusign</Password>" \
+                "<IntegratorKey>NAXX-b2095226-449e-4c21-9f8b-5c3ca4287c07</IntegratorKey>" \
+              "</DocuSignCredentials>"
+    }
+
+    accept_headers = {"Accept" => "application/json"}
+    #puts docusign_authentication_headers
+    #puts accept_headers
+    #puts docusign_authentication_headers.merge(accept_headers)
+    headers = docusign_authentication_headers.merge(accept_headers)
+
+    uri = URI.parse("https://demo.docusign.net/restapi/v2/accounts/203548/templates")
+    request = Net::HTTP::Get.new(uri.request_uri, headers)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = http.request(request).body 
+    #puts response
+
+    hashed_response = JSON.parse(response)
+    templates = hashed_response['envelopeTemplates']
+    templateId = templates[0]['templateId']
+
+    puts "****************"
+    templateId
+  end
+
+def create_envelope(templateId)
+  puts "~~~~~~~~~~~~ "
+  puts templateId
+
+    docusign_authentication_headers = {
+            "X-DocuSign-Authentication" => "" \
+              "<DocuSignCredentials>" \
+                "<Username>rhuff.9999@gmail.com</Username>" \
+                "<Password>Deskpro0docusign</Password>" \
+                "<IntegratorKey>NAXX-b2095226-449e-4c21-9f8b-5c3ca4287c07</IntegratorKey>" \
+              "</DocuSignCredentials>"
+    }
+
+    content_type_header = {"content-type" => "application/json"}
+    accept_headers = {"Accept" => "application/json"}
+    #puts docusign_authentication_headers
+    #puts accept_headers
+    #puts docusign_authentication_headers.merge(accept_headers)
+    headers = docusign_authentication_headers.merge(accept_headers).merge(content_type_header)
+
+    blurb = "Blurb"
+    subject = "Subject"
+    email = "rhuff.9999@gmail.com"
+    name = "Ryan"
+    roleName = "RoleOne"
+    clientUserId = "1"
+    status = "sent"
+
+
+    post_body = "{
+        \"emailBlurb\"   : \"" + blurb + "\",
+        \"emailSubject\" : \"" + subject + "\",
+        \"templateId\"    : \"" + templateId + "\",
+        \"customFields\"  : {
+          \"textCustomFields\" : [{
+            \"name\" : \"lastName\",
+            \"show\" : \"true\",
+            \"required\" : \"true\",
+            \"value\" : \"Smith\"
+          }]
+        },
+        \"templateRoles\"   : [ {
+          \"email\" : \"" + email + "\",
+          \"name\" :  \"" + name + "\",
+          \"roleName\" :  \"" + roleName + "\",
+          \"clientUserId\" :  \"" + clientUserId + "\"}],
+        \"status\" : \"" + status + "\"
+      }"
+
+    uri = URI.parse("https://demo.docusign.net/restapi/v2/accounts/203548/envelopes")
+    request = Net::HTTP::Post.new(uri.request_uri, headers)
+    request.body = post_body
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = http.request(request).body 
+    puts response
+
+    hashed_response = JSON.parse(response)
+    envelope_id = hashed_response['envelopeId']
+
+    envelope_id
+  end
+
+def view_document(envelopeId)
+  puts "~~~~~~~~~~~~ "
+  puts envelopeId
+
+    docusign_authentication_headers = {
+            "X-DocuSign-Authentication" => "" \
+              "<DocuSignCredentials>" \
+                "<Username>rhuff.9999@gmail.com</Username>" \
+                "<Password>Deskpro0docusign</Password>" \
+                "<IntegratorKey>NAXX-b2095226-449e-4c21-9f8b-5c3ca4287c07</IntegratorKey>" \
+              "</DocuSignCredentials>"
+    }
+
+    content_type_header = {"content-type" => "application/json"}
+    accept_headers = {"Accept" => "application/json"}
+    #puts docusign_authentication_headers
+    #puts accept_headers
+    #puts docusign_authentication_headers.merge(accept_headers)
+    headers = docusign_authentication_headers.merge(accept_headers).merge(content_type_header)
+
+    blurb = "Blurb"
+    subject = "Subject"
+    email = "rhuff.9999@gmail.com"
+    name = "Name"
+    roleName = "RoleOne"
+    clientUserId = "1"
+    status = "sent"
+
+
+    post_body = "{
+        \"authenticationMethod\"   : \"None\",
+        \"email\" : \"rhuff.9999@gmail.com\",
+        \"returnUrl\" : \"http://www.google.com\",
+        \"userName\" : \"Ryan\",
+        \"clientUserId\" : \"1\"
+      }"
+
+    uri = URI.parse("https://demo.docusign.net/restapi/v2/accounts/203548/envelopes/" + envelopeId + "/views/recipient")
+    request = Net::HTTP::Post.new(uri.request_uri, headers)
+    request.body = post_body
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = http.request(request).body 
+
+    hashed_response = JSON.parse(response)
+    document_url = hashed_response['url']
+
+    document_url
+
+#    templates = hashed_response[0]['envelopeId']
+
   end
 end
