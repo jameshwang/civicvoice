@@ -1,7 +1,7 @@
 <div id="container">
   <%- model_class = Petition -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+    <h1><%= img_tag("https://s3-us-west-2.amazonaws.com/pastepaste/images/cogs.png") %></h1>
   </div>
 
   <dl class="dl-horizontal">
@@ -9,8 +9,6 @@
     <dd><%= @petition.name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
     <dd><%= @petition.description %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:pdf_link) %>:</strong></dt>
-    <dd><%= @petition.pdf_link %></dd>
   </dl>
 
   <iframe src="<%= @petition.pdf_link %>" style="width:900px; height: 700px;" frameborder="0"></iframe>
