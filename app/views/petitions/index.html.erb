@@ -1,27 +1,25 @@
-<h1>Listing petitions</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Pdf link</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @petitions.each do |petition| %>
-  <tr>
-    <td><%= petition.name %></td>
-    <td><%= petition.description %></td>
-    <td><%= petition.pdf_link %></td>
-    <td><%= link_to 'Show', petition %></td>
-    <td><%= link_to 'Edit', edit_petition_path(petition) %></td>
-    <td><%= link_to 'Destroy', petition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%- model_class = Petition -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:pdf_link) %></th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% @petitions.each do |petition| %>
+      <tr>
+        <td><%= link_to petition.name, petition_path(petition) %></td>
+        <td><%= link_to petition.description[0,250], petition_path(petition) %></td>
+        <td><%= petition.pdf_link %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Petition', new_petition_path %>
