@@ -1,3 +1,25 @@
 // Place all the styles related to the Petitions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+dt, dd {
+	margin-bottom: 20px;
+
+}
+
+dd {
+	// float: left;
+	margin: 0px 50px 20px 50px;
+}
+
+.page-header {
+	margin-left: 20px;
+}
+body {
+	
+	text-align: center;
+}
+#container {
+	margin: 0 auto;
+	width:682px;
+	text-align: left;
+}
