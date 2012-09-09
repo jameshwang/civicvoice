@@ -214,11 +214,10 @@ def view_document(envelopeId)
     clientUserId = "1"
     status = "sent"
 
-
     post_body = "{
         \"authenticationMethod\"   : \"None\",
         \"email\" : \"rhuff.9999@gmail.com\",
-        \"returnUrl\" : \"http://www.google.com\",
+        \"returnUrl\" : \"http://easypetition.herokuapp.com/close.html\",
         \"userName\" : \"Ryan\",
         \"clientUserId\" : \"1\"
       }"
