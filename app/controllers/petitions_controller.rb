@@ -144,8 +144,8 @@ def create_envelope(templateId)
 
     blurb = "Blurb"
     subject = "Subject"
-    email = "rhuff.9999@gmail.com"
-    name = "Ryan"
+    email = "james.hwang.usc@gmail.com"
+    name = "James Hwang"
     roleName = "RoleOne"
     clientUserId = "1"
     status = "sent"
@@ -208,7 +208,7 @@ def view_document(envelopeId)
 
     blurb = "Blurb"
     subject = "Subject"
-    email = "rhuff.9999@gmail.com"
+    email = "james.hwang.usc@gmail.com"
     name = "Name"
     roleName = "RoleOne"
     clientUserId = "1"
@@ -216,9 +216,9 @@ def view_document(envelopeId)
 
     post_body = "{
         \"authenticationMethod\"   : \"None\",
-        \"email\" : \"rhuff.9999@gmail.com\",
+        \"email\" : \"james.hwang.usc@gmail.com\",
         \"returnUrl\" : \"http://easypetition.herokuapp.com/close.html\",
-        \"userName\" : \"Ryan\",
+        \"userName\" : \"James Hwang\",
         \"clientUserId\" : \"1\"
       }"
 
