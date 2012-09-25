@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
+    @user = User.create(name: params[:name])
 
     respond_to do |format|
       format.html # new.html.erb
